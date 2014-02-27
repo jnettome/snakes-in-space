@@ -1,0 +1,177 @@
+/*---------------------RESET (Thanks Eric Meyer!)------------------ */
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+body {line-height: 1;}
+ol, ul {list-style: none;}
+blockquote, q {quotes: none;}
+blockquote:before, blockquote:after, q:before, q:after {content: ''; content: none;}
+table {border-collapse: collapse;border-spacing: 0;}
+
+.clearfix:after {
+	visibility: hidden;
+	display: block;
+	font-size: 0;
+	content: " ";
+	clear: both;
+	height: 0;
+}
+/*------------------------COLORS--------------------
+
+*/
+body{
+	overflow:hidden;
+	background:
+		url(../images/stars_bg_1.png) repeat 120%,
+		url(../images/stars_bg_2.png) repeat -80%,
+		url(../images/radial_bg.png) no-repeat 60%;
+	background-color:#11041c;
+	font-size:12px;
+	font-family:"t26-carbon-1","t26-carbon-2", Arial,sans-serif;
+	font-weight:300;
+}
+div#snake-bg{width:1120px; margin:0 auto; position:relative;}
+div#snake-bg img{width:100%; max-width:1200px;}
+section#game-wrapper{width:800px; height:500px; position:absolute; top:180px; left:144px; border-radius:10px; border:11px solid #eee;}
+canvas#game-area{background:rgba(200,200,200,.15); height:500px; width:800px; -webkit-transform:all .2s;}
+
+#score{font-family:'league-gothic-1','league-gothic-2', sans-serif; position:absolute; text-align:center; top:-110px; right:-95px; color:#fff; background:rgba(255,255,255,.1); z-index:-200; height:95px; width:120px; border-radius:60px; -moz-border-radius:60px; padding-top:25px;}
+#score-label{font-size:180%; margin-bottom:10px; color:rgba(255,255,255,1); text-transform:uppercase; letter-spacing:1px;  text-shadow:2px 2px 1px #222;}
+#current-score{font-size:300%; color:rgba(255,255,255,1);}
+#multiplier{font-family:'league-gothic-1','league-gothic-2', sans-serif; height:90px; width:120px; position:absolute; text-align:center; bottom:190px; left:-140px; color:#fff; background:rgba(255,255,255,.1); z-index:-200; border-radius:60px; -moz-border-radius:60px; padding-top:30px;}
+#multiplier-label{font-size:180%; margin-bottom:10px; color:rgba(255,255,255,1); text-transform:uppercase; letter-spacing:1px;  text-shadow:2px 2px 1px #222;}
+#current-multiplier{font-size:300%; color:rgba(255,255,255,1);}
+
+/*-----------------TYPOGRAPHY----------------*/
+h1{font-family:'league-gothic-1','league-gothic-2', sans-serif; color:rgba(255, 255, 255, 1); font-size:1000%; text-shadow:2px 2px 1px #222; font-weight:bold; text-transform:uppercase;}
+h2{font-family:'league-gothic-1','league-gothic-2', sans-serif; color:rgba(255, 255, 255, 1); font-style:italic; font-size:600%; text-shadow:2px 2px 1px #222; font-weight:bold; text-transform:uppercase;}
+h3{font-family:'league-gothic-1','league-gothic-2', sans-serif;}
+
+/*-----------------HEADER----------------*/
+header{width:800px; position:absolute; left:200px; top:10px;}
+header h1{margin-left:110px; font-style:italic; /*-webkit-mask-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0,0,0,1)), color-stop(50%, rgba(0,0,0,.5)), to(rgba(0,0,0,1)));*/ text-shadow:4px 4px 1px #222;}
+header h2{font-style:italic;position:absolute; top:40px; left:380px; /*-webkit-mask-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0,0,0,1)), color-stop(50%, rgba(0,0,0,.5)), to(rgba(0,0,0,1)));*/ padding-right:20px; text-shadow:4px 4px 1px #222;}
+
+/*-----------------BUTTONS----------------*/
+button{padding:10px 20px; background:rgba(255,255,255,.2); border-radius:5px; color:#fff; font-size:200%; cursor:pointer; text-align:center; border:1px solid rgba(255,255,255,.3); -webkit-transition:all .2s; font-family:"t26-carbon-1","t26-carbon-2";}
+button:hover{background:rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2);}
+
+button#try-again{margin:0 auto 0 auto; display:block; width:200px; }
+button#start{width:180px; margin-left:20px; float:right;}
+
+/*-----------------INTRO----------------*/
+input{padding:10px 20px; background:rgba(255,255,255,.1); border:1px solid rgba(0,0,0, .2); border-radius:5px; color:#fff; font-size:200%; font-family:"t26-carbon-1","t26-carbon-2"; width:100%; -webkit-transition:all .2s;}
+input:focus{outline:none; background:rgba(200,200,200,.1); border: 1px solid rgba(255,255,255,.2);}
+input::-webkit-input-placeholder{color:rgba(255,255,255,.8); font-style:italic;}
+input::-moz-placeholder{color:rgba(255,255,255,.8); font-style:italic;}
+
+div#intro input{width:290px;}
+div#intro{height:500px; width:800px; background:#6387A6; position:absolute; top:0px; left:0px; overflow:hidden; opacity:1; z-index:100;}
+div#intro #instructions{width:500px; border-radius:5px; background:rgba(255,255,255,.1); border:1px solid rgba(0,0,0, .2); margin:0 auto 20px auto; padding:20px; webkit-transition:all .2s; margin-top:20px;}
+div#intro #instructions ul{width:270px;}
+div#intro #instructions li{color:rgba(255,255,255,.9); display:block; height:32px; margin-bottom:10px; font-size:130%;}
+div#intro #instructions li span{display:block; padding-top:8px;}
+div#intro #instructions li:last-child{margin-bottom:0px;}
+div#intro #instructions li img{float:left; height:20px; width:20px; margin-right:10px; padding:5px; background-color:rgba(0,0,0, .1); border:1px solid rgba(0,0,0, .2); border-radius:3px;}
+div#intro div#key-directions{height:20px; width:127px; background:url(../images/keyboard_directions.png) no-repeat; float:right; padding-top:90px; color:rgba(255,255,255,.9); font-size:120%; text-align:center;line-height:140%;}
+div#intro form{width:540px; margin:0 auto; font-family:"t26-carbon-1","t26-carbon-2";}
+div#intro h2{font-family:'league-gothic-1','league-gothic-2'; font-size:600%; color:#fff; text-align:center; margin-top:70px; font-style:italic; text-shadow:3px 3px 1px rgba(0,0,0, .2);}
+div#intro h3{color:#fff; text-align:center;font-size:200%;}
+
+/*-----------------GAME OVER----------------*/
+div#game-over{height:500px; width:800px; background:#6387A6; position:absolute; top:0px; left:0px; overflow:hidden; opacity:0; z-index:-100;}
+div#game-over h2{color:#fff; text-align:center; font-size:600%; margin-top:40px; font-style:italic; text-shadow:3px 3px 1px rgba(0,0,0, .2);}
+div#game-over h3{color:#fff; text-align:center; font-size:250%; margin-top:15px;}
+div#game-over h4{color:#fff; font-family:'league-gothic-1','league-gothic-2'; font-style:italic; font-size:200%; text-align:center; margin-top:5px;}
+div#game-over div.left{ width:400px; margin:0 auto; }
+div#game-over #space-ship{width:160px; height:175px; margin:20px auto 0 auto; -webkit-transition:all .2s;}
+div#game-over #space-ship img{width:100%; max-width:160px;}
+div#game-over div.right{float:right; width:400px;}
+div#game-over h3#high-scores-title{margin-top:76px; text-transform:uppercase;}
+div#game-over ol#high-scores{ font-family:'league-gothic-1','league-gothic-2'; width:300px; height:300px; border-radius:5px; background:rgba(255,255,255,.1); border:1px solid rgba(0,0,0, .2); margin:20px auto 20px auto; padding:5px 0; color:rgba(255,255,255, .9); margin-bottom:20px; font-size:150%; -webkit-transition:all .2s;}
+div#game-over ol#high-scores li{display:block; height:20px; padding:5px 10px 5px 20px; position:relative;}
+div#game-over ol#high-scores li.new-high-score{background:rgba(0,0,0,.1);}
+div#game-over ol#high-scores li:after{visibility:hidden; display:block; font-size:0;content:" "; clear:both; height: 0;}
+div#game-over ol#high-scores li:last-child{margin-bottom:0px;}
+div#game-over ol#high-scores li .name{float:left; height:20px; width:155px; overflow:hidden;}
+div#game-over ol#high-scores li .score{float:right; width:50px; text-align:left;}
+div#game-over ol#high-scores li .youre-a-star{width:20px; height:20px; display:block; background:url(../images/star.png) no-repeat; position:absolute; left:-28px; top:7px;}
+
+/*-----------------FOOTER----------------*/
+footer{font-family:"t26-carbon-1","t26-carbon-2", Arial; color:rgba(255,255,255, .6); text-align:center; width:820px; position:absolute; bottom:-10px; left:145px; -webkit-transition:all .2s;}
+/*footer a#learn-more{width:35%; font-size:120%; letter-spacing:1px; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.2); display:block; color:rgba(255,255,255, .4); text-decoration:none; padding:10px 0; border-radius:5px; -moz-border-radius:5px; -webkit-transition:all .2s; cursor:pointer;}
+footer a#learn-more:hover{ color:rgba(255,255,255, .7); }
+footer a#learn-more.show-menu{width:100%; background:rgba(255,255,255,.1.5); text-align: left;}*/
+
+footer p#copyright{color:rgba(255,255,255, .4); text-align:center; text-decoration:none; font-size:110%;}
+footer p#copyright a{ color:rgba(255,255,255, .3); text-decoration:none; -webkit-transition:all .2s;}
+footer p#copyright a:hover{color:rgba(255,255,255, .5);}
+
+/*-----------------MEDIA QUERIES----------------*/
+@media (max-height: 720px){
+	div#snake-bg{width:940px;}
+	header h1{font-size:800%; margin-left:90px;}
+	header h2{font-size:400%; left:310px}
+	section#game-wrapper{width:680px; height:340px; position:absolute; top:160px; left:116px;}
+	canvas#game-area{height:340px; width:680px;}
+	div#game-over{height:340px; width:680px;}
+	div#intro{height:340px; width:680px;}
+	#score{top:-112px; right:-85px;}
+	div#intro h2{font-size:400%; margin-top:20px;}
+	div#intro h3{display:none;}
+	input, button{font-size:150%; padding:8px 20px;}
+	div#game-over h2{font-size:400%; margin-top:15px;}
+	div#game-over h3{margin-top:10px;}
+	div#game-over h4{font-size:150%;}
+	div#game-over #space-ship{width:120px; height:135px; margin:10px auto 0 auto;}
+	div#game-over h3#high-scores-title{display:none;}
+	div#game-over div.left{width:320px;}
+	div#game-over div.right{width:360px;}
+	div#game-over ol#high-scores{width:240px; height:280px; margin:25px auto 0 auto;}
+	div#game-over ol#high-scores li{padding:4px 10px 4px 20px;}
+	#multiplier{ bottom:60px; left:-130px;}
+	footer{width:700px; bottom:50px; left:115px;}
+}
+
+@media (max-width: 1000px){
+	div#snake-bg{width:940px;}
+	header h1{font-size:800%; margin-left:90px;}
+	header h2{font-size:400%; left:310px}
+	section#game-wrapper{width:680px; height:340px; position:absolute; top:160px; left:116px;}
+	canvas#game-area{height:340px; width:680px;}
+	div#game-over{height:340px; width:680px;}
+	div#intro{height:340px; width:680px;}
+	#score{top:-112px; right:-85px;}
+	div#intro h2{font-size:400%; margin-top:20px;}
+	div#intro h3{display:none;}
+	input, button{font-size:150%; padding:8px 20px;}
+	div#game-over h2{font-size:400%; margin-top:15px;}
+	div#game-over h3{margin-top:10px;}
+	div#game-over h4{font-size:150%;}
+	div#game-over #space-ship{width:120px; height:135px; margin:10px auto 0 auto;}
+	div#game-over h3#high-scores-title{display:none;}
+	div#game-over div.left{width:320px;}
+	div#game-over div.right{width:360px;}
+	div#game-over ol#high-scores{width:240px; height:280px; margin:25px auto 0 auto;}
+	div#game-over ol#high-scores li{padding:4px 10px 4px 20px;}
+	#multiplier{ bottom:60px; left:-130px;}
+	footer{width:700px; bottom:50px; left:115px;}
+}
