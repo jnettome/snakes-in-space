@@ -1,4 +1,4 @@
-snakes-in-space
+Snakes in Space
 ===============
 
-Canvas snake game
+http://snakesinspace.com
