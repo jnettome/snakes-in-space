@@ -14,11 +14,11 @@ var SnakeGame = function(canvas){
 		POINT_INTERVAL_TURBO = 10,
 		POINT_INTERVAL_SHAKE = 100,
 		CHANGING = false;
-	
-	//Get the Canvas drawing context	
+
+	//Get the Canvas drawing context
 	var canvas = $(canvas)[0],
 		ctx = canvas.getContext('2d');
-		
+
 	var snakeBits = [],				//Position of each bit of snake
 		heading,					//Current Heading
 		bitsToGrow = FOOD_GROWTH,	//Number of bits left to grow
@@ -32,11 +32,11 @@ var SnakeGame = function(canvas){
 		multiplier,
 		shakeTime = 0,
 		user;
-	
+
 	function bit(x,y){
 		return {x: x, y: y};
 	};
-	
+
 	function startGame(name){
 		user = name;
 		currentPoints = 0;
@@ -48,11 +48,11 @@ var SnakeGame = function(canvas){
 		POINT_INTERVAL = 20;
 		heading = EAST;
 		snakeBits.unshift(bit(6,6));
-		
+
 		placeFood();
 		placeTurbo();
 		placeShake();
-		
+
 		clearInterval(timer);
 		timer = setInterval(gameLoop, gameSpeed); //Every 100 ms the snake moves one cell
 
@@ -64,39 +64,39 @@ var SnakeGame = function(canvas){
 			}
 		});
 	};
-	
+
 	function placeFood(){
 		var x = Math.round(Math.random() * (MAX_X - 1)),
 			y = Math.round(Math.random() * (MAX_Y - 1));
 		if(inSnake(x,y,true)) return placeFood(); //Check to see if food lands on snake
 		food = {x:x, y:y};
 	};
-	
+
 	function placeTurbo(){
 		var x = Math.round(Math.random() * (MAX_X - 1)),
 			y = Math.round(Math.random() * (MAX_Y - 1));
 		if(inSnake(x,y,true)) return placeTurbo(); //Check to see if turbo lands on snake
 		turbo = {x:x, y:y};
 	};
-	
+
 	function placeShake(){
 		var x = Math.round(Math.random() * (MAX_X - 1)),
 			y = Math.round(Math.random() * (MAX_Y - 1));
 		if(inSnake(x,y,true)) return placeShake(); //Check to see if shake lands on snake
 		shake = {x:x, y:y};
 	};
-	
+
 	function inSnake(x, y, includeHead){
 		var length = snakeBits.length,
 			i = includeHead ? 0 : 1;
-			
+
 		for(; i < length; i++){
 			if( x == snakeBits[i].x && y == snakeBits[i].y)
 				return true;
 		}
 		return false;
 	};
-	
+
 	function gameLoop(){
 		if(!gameOver){
 			advanceSnake();
@@ -116,7 +116,7 @@ var SnakeGame = function(canvas){
 			else{
 				turbo = {x:0, y:-50};
 			}
-			
+
 			if(Math.round(Math.random() * 300) == 150 || shakeTime > 0){
 				if(shakeTime <= 60){
 					if(shake.y == -50){
@@ -133,14 +133,14 @@ var SnakeGame = function(canvas){
 					shake = {x:0, y:-50};
 				}
 			}
-			
+
 		}
 		else{
 			clearInterval(timer);
 			endGame();
 		}
 	};
-	
+
 	function advanceSnake(){
 		var head = snakeBits[0];
 		switch(heading){
@@ -164,18 +164,18 @@ var SnakeGame = function(canvas){
 			bitsToGrow--;
 		}
 	};
-	
+
 	function checkCollision(){
 		var head = snakeBits[0];
 		var len = snakeBits.length;
-		
+
 		if (head.x == food.x && head.y == food.y){ //check collision with food
 			bitsToGrow = FOOD_GROWTH;
 			currentPoints += POINT_INTERVAL * multiplier;
 			$('#current-score').html(currentPoints);
 			placeFood();
 		}
-		
+
 		if (head.x == turbo.x && head.y == turbo.y){ //check collision with turbo
 			multiplier += 1;
 			currentPoints += POINT_INTERVAL_TURBO * multiplier;
@@ -185,29 +185,29 @@ var SnakeGame = function(canvas){
 			timer = setInterval(gameLoop, gameSpeed -= 10);
 			placeTurbo();
 		}
-		
+
 		if (head.x == shake.x && head.y == shake.y){ //check collision with shake
 			bitsToGrow = FOOD_GROWTH;
 			currentPoints += POINT_INTERVAL_SHAKE * multiplier;
 			$('#current-score').html(currentPoints);
 			shakeTime = 0;
 		}
-		
+
 		if (head.x >= canvas.width / CELL_SIZE || head.x < 0 || head.y >= canvas.height / CELL_SIZE || head.y < 0){ //check collision with boundaries
 			gameOver = true;
 		}
-		
+
 		for(var i = 1; i < len; i++){
 			if(head.x == snakeBits[i].x && head.y == snakeBits[i].y){
 				gameOver = true;
 			}
 		}
 	};
-	
+
 	function clearCanvas(){
 		ctx.clearRect(0,0, canvas.width, canvas.height);
 	};
-	
+
 	function drawSnake(){
 		var i;
 		var length = snakeBits.length;
@@ -216,7 +216,7 @@ var SnakeGame = function(canvas){
 		}
 		CHANGING = false;
 	};
-	
+
 	function drawBit(bit){
 		drawInCell(bit.x, bit.y, function(){
 			if(bit == snakeBits[0]){
@@ -224,12 +224,12 @@ var SnakeGame = function(canvas){
 				headY = bit.y;
 				var snakeHead = new Image();
 				snakeHead.src = "images/snake-head.png";
-			
+
 				if(heading == EAST){
 					ctx.translate(20,0);
 					ctx.rotate(90 * Math.PI / 180);
 					ctx.drawImage(snakeHead,0,0);
-					
+
 				}
 				else if(heading == SOUTH){
 					ctx.translate(20,20);
@@ -253,16 +253,16 @@ var SnakeGame = function(canvas){
 				ctx.beginPath();
 				ctx.rect(0,0, CELL_SIZE, CELL_SIZE);
 				ctx.fill();
-				
+
 				ctx.beginPath();
 				ctx.moveTo(0, 0);
 				ctx.lineTo(20, 20);
 				ctx.stroke();
 			}
-			
+
 		});
 	};
-	
+
 	function drawInCell(cellX, cellY, fn){
 		var x = cellX * CELL_SIZE,
 			y = cellY * CELL_SIZE;
@@ -271,7 +271,7 @@ var SnakeGame = function(canvas){
 		fn();
 		ctx.restore();
 	};
-	
+
 	function drawFood(){
 		drawInCell(food.x, food.y, function(){
 			var snakeFood = new Image();
@@ -279,7 +279,7 @@ var SnakeGame = function(canvas){
 			ctx.drawImage(snakeFood,0,0);
 		});
 	};
-	
+
 	function drawTurbo(){
 		drawInCell(turbo.x, turbo.y, function(){
 			var jetPack = new Image();
@@ -287,7 +287,7 @@ var SnakeGame = function(canvas){
 			ctx.drawImage(jetPack,0,0);
 		});
 	};
-	
+
 	function drawShake(){
 		drawInCell(shake.x, shake.y, function(){
 			var milkShake = new Image();
@@ -295,7 +295,7 @@ var SnakeGame = function(canvas){
 			ctx.drawImage(milkShake,0,0);
 		});
 	};
-	
+
 	function changeDirection(key){
 		if(key == 37 && heading != EAST){
 			heading = WEST;
@@ -310,15 +310,15 @@ var SnakeGame = function(canvas){
 			heading = SOUTH;
 		};
 	};
-	
+
 	function endGame(){
 		gameOver = false;
 		var length = snakeBits.length;
-			
+
 		for(i = FOOD_GROWTH; i <= length; i++){
 			snakeBits.pop();  //remove all the bits from the snake on game over
 		}
-		
+
 		$.post("backend.php", {name: user, score: currentPoints},
 			function() {
 				$.ajax({
@@ -326,14 +326,14 @@ var SnakeGame = function(canvas){
 					success: function(data) {
 						$('#high-scores').html(data);
 					}
-				});		
+				});
 		});
-		
+
 		$('#end-game-score').html(currentPoints);
 		$('#end-game-name').html(user);
 		$('#game-over').animate({opacity: 1}, 500).css('z-index', 100);
 	};
-	
+
 	function pauseGame(){
 		if(timer == undefined){
 			console.log('hasnt started');
@@ -343,7 +343,7 @@ var SnakeGame = function(canvas){
 			timer.pause();
 		}
 	}
-	
+
 	return{
 		start: startGame,
 		end: endGame
@@ -354,7 +354,7 @@ $(function(){
 	if (!(Modernizr.canvas || Modernizr.multiplebgs || Modernizr.rgba || Modernizr.csstransitions)){ //modern browser detection and re-direction
 	   window.location.replace("http://snakesinspace.com/your-browser-sucks.html");
 	}
-	
+
 	var userName;
 	$('#user-name').submit(function(evt){
 		evt.preventDefault();
@@ -369,7 +369,7 @@ $(function(){
 			game.start(userName);
 		}
 	});
-	
+
 	if($(document).height() <= 720){
 		$('#game-area').attr('width', 680);
 		$('#game-area').attr('height', 340);
@@ -378,7 +378,7 @@ $(function(){
 		$('#game-area').attr('width', 680);
 		$('#game-area').attr('height', 340);
 	}
-	
+
 	$(window).resize(function(){
 		var height = $(document).height();
 		var width = $(document).width();
@@ -391,22 +391,10 @@ $(function(){
 			$('#game-area').attr('height', 500);
 		}
 	});
-	
+
 	$('#try-again').click(function(){
 		$('#game-over').animate({opacity: 0}, 500).css('z-index', -100);
 		game.start(userName);
 	});
-	
-	/*$('#learn-more').click(function(){
-		var learnBtn = $('#learn-more');
-		//game.end();
-		if (learnBtn.hasClass('show-menu')){
-			$('#copyright').animate({opacity: 1}, 200);
-			learnBtn.removeClass('show-menu');
-		}
-		else{
-			$('#copyright').animate({opacity: 0}, 200);
-			learnBtn.addClass('show-menu');
-		}
-	});*/
+
 });
